@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body background="http://cliparts.co/cliparts/6cy/5ro/6cy5rozEi.gif">
+<style>
+body {
+    background:url("http://cliparts.co/cliparts/6cy/5ro/6cy5rozEi.gif") repeat-y 100% 100% fixed;
+    height:100%;
+    width:100%;
+}
+</style>
+
+<canvas id="canvas" width="1250" height="625"> </canvas>
+<script>
+	let canvas = document.getElementById("canvas");
+	let context = canvas.getContext("2d");
+
+const NUM_POINTS =1000;
+let points = [];
+for(let i = 0; i < NUM_POINTS; i++) {
+
+  points.push({
+    x: Math.random() * (canvas.width- 25),
+    y: Math.random() * (canvas.height - 20),
+ 	width: Math.random() * 25,
+    height: Math.random() * 20,
+    xDelta: 22, 
+    yDelta: 20,
+	color: getRandomColor()
+  });
+}
+	const draw = function() {
+    	context.clearRect(0,0,canvas.width, canvas.height);
+    	points.forEach(function(p){
+    		context.fillStyle = p.color;
+    		context.fillRect(p.x, p.y, p.width, p.height);
+    		p.x += p.xDelta;
+    		p.y += p.yDelta;
+    		
+    		if (p.x >(canvas.width-p.width) || p.x < 0 ){
+    			p.xDelta *= -1;
+    		}
+    		if (p.y >(canvas.height-p.height) || p.y < 0){
+    			p.yDelta *= -1;
+    		}		
+    	});
+    };
+    function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+		let animate = function() {
+		    draw();
+		    setTimeout(animate, 1);
+		};
+
+		animate();
+</script>
+</body>
+</html>
